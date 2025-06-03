@@ -69,8 +69,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Team
 
-- [Your Name] - Project Lead & Developer
+- [Aditya Vardhan] - Project Lead & Developer
 
 ## 📞 Support
 
-For support, email [your-email@example.com] 
+For support, email [vardhan.aditya.4414@gmail.com] 
