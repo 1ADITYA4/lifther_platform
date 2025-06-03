@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User-specific stats: only the user can read/write
+    match /userStats/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Donations: anyone logged in can create, all can read
+    match /donations/{donationId} {
+      allow create: if request.auth != null &&
+                    request.resource.data.amount > 0 &&
+                    request.resource.data.amount <= 100000;
+      allow read: if true;
+      allow update, delete: if false;
+    }
+
+    // Global stats: only admin can read/write
+    match /globalStats/{docId} {
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Recipients: user can create/update their own profile, anyone can read
+    match /recipients/{userId} {
+      allow create, update: if request.auth != null && 
+                           request.auth.uid == userId &&
+                           request.resource.data.keys().hasAll(['fullName', 'phoneNumber', 'story']) &&
+                           request.resource.data.phoneNumber.matches('^[0-9]{10}$');
+      allow read: if true;
+      allow delete: if false;
+    }
+
+    // User roles: user can read/write their own role
+    match /userRoles/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // User settings: user can read/write their own settings
+    match /userSettings/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Stories: anyone logged in can create, all can read
+    match /stories/{storyId} {
+      allow create: if request.auth != null &&
+                    request.resource.data.keys().hasAll(['title', 'content', 'authorId', 'authorName', 'timestamp']) &&
+                    request.resource.data.authorId == request.auth.uid;
+      allow read: if true;
+      allow update: if request.auth != null && 
+                    request.auth.uid == resource.data.authorId &&
+                    request.resource.data.authorId == resource.data.authorId;
+      allow delete: if false;
+    }
+
+    // User donations: user can read/write their own donation history
+    match /userDonations/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    match /verifications/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create, update: if request.auth != null && 
+                           request.auth.uid == userId &&
+                           request.resource.data.keys().hasAll(['personalInfo', 'documents', 'bankDetails']) &&
+                           request.resource.data.documents is list &&
+                           request.resource.data.documents.size() > 0;
+      allow list: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Storage rules for verification documents
+    match /verification/{userId}/{document=**} {
+      allow read: if request.auth != null && (
+        request.auth.uid == userId || request.auth.token.admin == true
+      );
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /verification/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && (
+        request.auth.uid == userId || request.auth.token.admin == true
+      );
+      allow write: if request.auth != null && 
+                   request.auth.uid == userId && 
+                   request.resource.size < 5 * 1024 * 1024 && // 5MB limit
+                   request.resource.contentType.matches('image/.*'); // Only allow images
+    }
+  }
+} 

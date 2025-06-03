@@ -1,0 +1,109 @@
+.community-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.community-modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #b16cea33;
+  padding: 2.5em 2em 2em 2em;
+  min-width: 340px;
+  max-width: 95vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.community-modal-close {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #b16cea;
+  cursor: pointer;
+}
+
+.community-modal h2 {
+  margin-bottom: 0.5em;
+  color: #b16cea;
+  font-weight: 700;
+}
+
+.community-modal-desc {
+  color: #444;
+  font-size: 1.1rem;
+  margin-bottom: 1.5em;
+  text-align: center;
+}
+
+.community-modal-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2em;
+  justify-content: center;
+  width: 100%;
+}
+
+.community-modal-card {
+  background: linear-gradient(120deg, #fbeee6 0%, #ffe0f7 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #b16cea22;
+  padding: 1.2em 1.2em 1em 1.2em;
+  min-width: 220px;
+  max-width: 270px;
+  text-decoration: none;
+  color: #181c24;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.community-modal-card:hover {
+  box-shadow: 0 6px 24px #b16cea44;
+  transform: translateY(-4px) scale(1.03);
+}
+
+.community-modal-card-title {
+  font-weight: 700;
+  color: #b16cea;
+  font-size: 1.1rem;
+}
+
+.community-modal-card-desc {
+  font-size: 0.98rem;
+  color: #444;
+  opacity: 0.9;
+}
+
+.community-modal-card-link {
+  color: #ff5e69;
+  font-weight: 600;
+  font-size: 0.98rem;
+  margin-top: 0.5em;
+}
+
+@media (max-width: 600px) {
+  .community-modal {
+    min-width: 90vw;
+    padding: 1.2em 0.5em 1em 0.5em;
+  }
+  .community-modal-list {
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+  }
+  .community-modal-card {
+    min-width: 90vw;
+    max-width: 95vw;
+  }
+} 
