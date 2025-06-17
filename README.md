@@ -59,14 +59,6 @@ A secure and user-friendly donation platform designed to help single mothers in 
 - Role-based access control
 - Secure payment processing
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 👥 Team
 
 - [Aditya Vardhan] - Project Lead & Developer
